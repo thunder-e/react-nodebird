@@ -18,7 +18,7 @@ export const initialState = {
           src: "https://cdn.pixabay.com/photo/2021/11/12/03/04/woman-6787784_960_720.png",
         },
       ],
-      Comment: [
+      Comments: [
         {
           User: {
             nickname: "copy",
@@ -52,7 +52,7 @@ const dummyPost = {
     nickname: "김떤더",
   },
   Image: [],
-  Comment: [],
+  Comments: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -63,8 +63,11 @@ const reducer = (state = initialState, action) => {
         mainPosts: [dummyPost, ...state.mainPosts],
         postAdded: true,
       };
-    default:
-      return state;
+    default: {
+      return {
+        ...state,
+      };
+    }
   }
 };
 
