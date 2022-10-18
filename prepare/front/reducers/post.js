@@ -15,7 +15,7 @@ export const initialState = {
           src: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492_960_720.jpg",
         },
         {
-          src: "https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782_960_720.jpg",
+          src: "https://cdn.pixabay.com/photo/2021/11/12/03/04/woman-6787784_960_720.png",
         },
       ],
       Comment: [
@@ -51,7 +51,7 @@ const dummyPost = {
     id: 1,
     nickname: "김떤더",
   },
-  Images: [],
+  Image: [],
   Comment: [],
 };
 
