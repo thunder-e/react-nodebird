@@ -32,7 +32,7 @@ const CommentForm = ({ post }) => {
   );
 };
 
-CommentForm.PropTypes = {
+CommentForm.propTypes = {
   post: PropTypes.object.isRequired,
 };
 
