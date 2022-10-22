@@ -18,7 +18,6 @@ function loginAPI(data) {
 }
 
 function* logIn(action) {
-  console.log("saga login");
   // 1. action에서
   try {
     yield delay(1000);
