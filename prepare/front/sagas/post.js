@@ -77,15 +77,9 @@ function* addComment(action) {
   try {
     yield delay(1000);
     //const result = yield call(addCommentAPI, action.data);
-
-    const id = shortid.generate();
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: { id, content: action.data },
-    });
-    yield put({
-      type: ADD_POST_TO_ME,
-      data: id,
+      data: action.data,
     });
   } catch (err) {
     yield put({
