@@ -60,6 +60,10 @@ app.get("/post", (req, res) => {
 app.use("/post", postRouter); //prefix
 app.use("/user", userRouter);
 
+// 에러처리 미들웨어가 이쯤에 존재
+// 에러페이지로 가게 하고싶으면 작성하여 바꾸어주어도 된다
+// app.use((err, req, res, next) => {});
+
 app.listen(3065, () => {
   console.log("서버 실행 중!!!!");
 });

@@ -1,13 +1,14 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { User, Post } = require("../models"); //구조분해할당으로 (models/index.js에서 export한)db에서 User만을 가져온다.
 const passport = require("passport");
-const db = require("../models");
+
+const { User, Post } = require("../models"); //구조분해할당으로 (models/index.js에서 export한)db에서 User만을 가져온다.
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
 
 //passport>local에서 로그인이 성공됐다면 다시 콜백으로 와서
 //미들웨어 확장
-router.post("/login", (req, res, next) => {
+router.post("/login", isNotLoggedIn, (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       // err: 서버에러
@@ -51,7 +52,8 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-router.post("/", async (req, res) => {
+// 회원가입
+router.post("/", isNotLoggedIn, async (req, res) => {
   //POST /user/
 
   try {
@@ -79,7 +81,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/user/logout", (req, res, next) => {
+router.post("/logout", isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send("ok");
