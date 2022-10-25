@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, put, delay } from "redux-saga/effects";
+import { all, fork, takeLatest, put, delay, call } from "redux-saga/effects";
 import axios from "axios";
 import {
   LOG_IN_SUCCESS,
@@ -20,17 +20,16 @@ import {
 
 function loginAPI(data) {
   // 3. 전달된 후
-  return axios.post("/api/login", data); //4. 넘겨줌
+  return axios.post("/user/login", data); //4. 넘겨줌
 }
 
 function* logIn(action) {
   // 1. action에서
   try {
-    yield delay(1000);
-    //const result = yield call(loginAPI, action.data); // 2. data를 꺼내어
+    const result = yield call(loginAPI, action.data); // 2. data를 꺼내어
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -43,13 +42,12 @@ function* logIn(action) {
 // 실패결과 : err.response.data
 
 function logoutAPI() {
-  return axios.post("/api/logout");
+  return axios.post("/user/logout");
 }
 
 function* logOut() {
   try {
-    yield delay(1000);
-    //const result = yield call(logoutAPI);
+    yield call(logoutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
     });
@@ -62,14 +60,14 @@ function* logOut() {
 }
 
 // API는 제너레이터가 아니라는 것 주의!!!!!
-function signUpAPI() {
-  return axios.post("/api/signUp");
+function signUpAPI(data) {
+  return axios.post("/user", data);
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
-    yield delay(1000);
-    //const result = yield call(signUpAPI);
+    const result = yield call(signUpAPI, action.data);
+    console.log(result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });

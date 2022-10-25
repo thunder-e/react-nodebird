@@ -130,7 +130,7 @@ const reducer = (state = initialState, action) =>
       case LOG_IN_SUCCESS:
         draft.logInLoading = false; // SUCCESS : loading 끄고 done 해주고
         draft.logInDone = true;
-        draft.me = dummyUser(action.data);
+        draft.me = action.data;
         break;
       case LOG_IN_FAILURE:
         draft.logInLoading = false; // FAILURE : loading 끄고 error 넣어주고
