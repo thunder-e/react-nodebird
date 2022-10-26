@@ -4,7 +4,10 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const passport = require("passport");
+const morgan = require("morgan");
+
 const postRouter = require("./routes/post");
+const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
 const db = require("./models");
 const passportConfig = require("./passport");
@@ -21,10 +24,11 @@ db.sequelize
 passportConfig();
 
 //use : express서버에 무언가 장착한다는 뜻
+app.use(morgan("dev"));
 app.use(
   cors({
-    origin: "*",
-    credentials: false,
+    origin: "http://localhost:3060",
+    credentials: true, //쿠키도 같이 전달
   })
 );
 app.use(express.json()); // front에서 json형태로 데이터를 보냈을때 req.body를 req.body안에 넣어줌
@@ -49,14 +53,7 @@ app.get("/api", (req, res) => {
   res.send("hello api");
 });
 
-app.get("/post", (req, res) => {
-  res.json([
-    { id: 1, content: "hello1" },
-    { id: 1, content: "hello2" },
-    { id: 1, content: "hello3" },
-  ]);
-});
-
+app.use("/posts", postsRouter);
 app.use("/post", postRouter); //prefix
 app.use("/user", userRouter);
 

@@ -6,6 +6,42 @@ const { User, Post } = require("../models"); //구조분해할당으로 (models/
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const router = express.Router();
 
+router.get("/", async (req, res, next) => {
+  // GET /user
+  try {
+    if (req.user) {
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          exclude: ["password"],
+        },
+        include: [
+          {
+            model: Post, //hasMany라서 model: Post가 복수형이 되어 me.Posts가 된다.
+            attributes: ["id"],
+          },
+          {
+            model: User,
+            as: "Followings",
+            attributes: ["id"],
+          },
+          {
+            model: User,
+            as: "Followers",
+            attributes: ["id"],
+          },
+        ],
+      });
+      res.status(200).json(fullUserWithoutPassword);
+    } else {
+      res.status(200).json(null);
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 //passport>local에서 로그인이 성공됐다면 다시 콜백으로 와서
 //미들웨어 확장
 router.post("/login", isNotLoggedIn, (req, res, next) => {
